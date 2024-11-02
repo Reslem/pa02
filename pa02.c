@@ -12,8 +12,8 @@
 #include <math.h>
 
 int main(int argc, char** argv) {
-	char file[] = "in10A.txt";
-	int blockSize = 32;
+	char* file = argv[1];
+	int blockSize = atoi(argv[2]);
 	if (blockSize != 8 && blockSize != 16 && blockSize != 32) {
 		fprintf(stderr, "Valid checksum sizes are 8, 16, or 32\n");
 		exit(1);
