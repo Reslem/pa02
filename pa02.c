@@ -12,8 +12,8 @@
 #include <math.h>
 
 int main(int argc, char** argv) {
-	char* file = argv[1];
-	int blockSize = atoi(argv[2]);
+	char file[] = "in10A.txt";
+	int blockSize = 32;
 	if (blockSize != 8 && blockSize != 16 && blockSize != 32) {
 		fprintf(stderr, "Valid checksum sizes are 8, 16, or 32\n");
 		exit(1);
@@ -57,14 +57,17 @@ int main(int argc, char** argv) {
 			if (j % 2 == 0) ctr++;
 			for (int k = 0; k < 16; k++) { 
 				if (hexStr[ctr][j % 2] == hexdig[k]) { // Hex -> dec, add to sum
-					sum += k * pow(16, b * 2 - j - 1);
+					int a = 1;
+					for (int l = 0; l < b * 2 - j - 1; l++) a *= 16;
+					sum += k * a;
 					break;
 				}
 			}
 		}
 	}
 
-	long int bits = pow(2, blockSize);
+	unsigned long long bits = 1;
+	for (int i = 0; i < blockSize; i++) bits *= 2;
 	unsigned long int val = sum % bits; // Convert sum back to hex
 	for (int i = 0 ; i < ptLen; i++) {
 		if (i % 80 == 0) printf("\n");
